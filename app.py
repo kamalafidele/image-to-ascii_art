@@ -14,22 +14,22 @@ finalWidth = 100
 finalHeight = 50
 
 
-def fun_readFile(inputFile):
+def read_img(inputFile):
     try:
-        wsad = Image.open(inputFile)
+        img_data = Image.open(inputFile)
     except:
         print("This path is invalid")
-    return wsad
+    return img_data
 
-def fun_size(wsad, finalWidth, finalHeight):
-    size = wsad.resize((finalWidth, finalHeight))
+def resize_img(img_data, finalWidth, finalHeight):
+    size = img_data.resize((finalWidth, finalHeight))
     return size
 
-def fun_greysc(size):
+def generate_grayscale(size):
     greysc = ImageOps.grayscale(size)
     return greysc
 
-def fun_char(greysc, finalWidth):
+def convert_pixel_to_ascii(greysc, finalWidth):
     pixels = greysc.getdata()
     characters = "".join([ASCII_CHARS[pixel//25] for pixel in pixels])
     pixelCount = len(characters)  
@@ -37,7 +37,7 @@ def fun_char(greysc, finalWidth):
     return asciiImage
 
 def main():
-    asciiImage = fun_char(fun_greysc(fun_size(fun_readFile(inputFile), finalWidth, finalHeight)), finalWidth)
+    asciiImage = convert_pixel_to_ascii(generate_grayscale(resize_img(read_img(inputFile), finalWidth, finalHeight)), finalWidth)
     print(asciiImage)
 
 main()
